@@ -7,7 +7,7 @@ const Input = ({ formik, name, label, type = "text" }) => {
         name={name}
         id={name}
         {...formik.getFieldProps(name)}
-        placeholder={`Enter your ${name}`}
+        placeholder={`Enter your ${label}`}
       />
       {formik.errors[name] && formik.touched[name] && (
         <div className="error">{formik.errors[name]}</div>
