@@ -1,13 +1,24 @@
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import CheckBoxInput from "./common/CheckBoxInput";
 import Input from "./common/Input";
 import RadioInput from "./common/RadioInput";
+import SelectInput from "./common/SelectInput";
 
+const radioOptions = [
+  { value: "0", label: "male" },
+  { value: "1", label: "female" },
+];
+const checkBoxOptions = [
+  { value: "frontend", label: "frontend" },
+  { value: "backend", label: "backend" },
+];
 
-const radioOptions=[
-  {value:"0",label:"male"},
-  {value:"1",label:"female"}
-]
+const selectOptions = [
+  { value: "", label: "selest nationality..." },
+  { value: "IR", label: "Iran" },
+  { value: "US", label: "USA" },
+];
 
 const initialValues = {
   name: "",
@@ -16,6 +27,8 @@ const initialValues = {
   password: "",
   passwordConfirm: "",
   gender: "",
+  intrests: [],
+  nationality: "",
 };
 
 const onSubmit = (values) => {
@@ -40,6 +53,8 @@ const validationSchema = Yup.object({
     .required("password confirmation is required")
     .oneOf([Yup.ref("password"), null], "password must match"),
   gender: Yup.string().required("gender is required"),
+  intrests: Yup.array().required("intrests is required").min(1),
+  nationality: Yup.string().required("nationality is required"),
 });
 
 const SignUpForm = () => {
@@ -64,7 +79,22 @@ const SignUpForm = () => {
             name="passwordConfirm"
             label="Password confirmation"
           />
-        <RadioInput formik={formik} name="gender" radioOptions={radioOptions} />
+          <RadioInput
+            formik={formik}
+            name="gender"
+            radioOptions={radioOptions}
+          />
+          <CheckBoxInput
+            formik={formik}
+            name="intrests"
+            checkBoxOptions={checkBoxOptions}
+          />
+          <SelectInput
+            formik={formik}
+            name="nationality"
+            selectOptions={selectOptions}
+          />
+
           <button type="submit" disabled={!formik.isValid}>
             add
           </button>
