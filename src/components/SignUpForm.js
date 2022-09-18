@@ -1,5 +1,6 @@
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import BooleanCheckBox from "./common/BooleanCheckBox";
 import CheckBoxInput from "./common/CheckBoxInput";
 import Input from "./common/Input";
 import RadioInput from "./common/RadioInput";
@@ -29,6 +30,7 @@ const initialValues = {
   gender: "",
   intrests: [],
   nationality: "",
+  terms: false,
 };
 
 const onSubmit = (values) => {
@@ -55,6 +57,9 @@ const validationSchema = Yup.object({
   gender: Yup.string().required("gender is required"),
   intrests: Yup.array().required("intrests is required").min(1),
   nationality: Yup.string().required("nationality is required"),
+  terms: Yup.boolean()
+    .required("terms and conditions must be specified")
+    .oneOf([true], "Must Accept Terms and Conditions "),
 });
 
 const SignUpForm = () => {
@@ -72,12 +77,18 @@ const SignUpForm = () => {
         <form onSubmit={formik.handleSubmit}>
           <Input formik={formik} name="name" label="Name" />
           <Input formik={formik} name="phoneNumber" label="Phone Number" />
-          <Input formik={formik} name="email" label="Email" />
-          <Input formik={formik} name="password" label="Password" />
+          <Input formik={formik} name="email" label="Email" type="email" />
+          <Input
+            formik={formik}
+            name="password"
+            label="Password"
+            type="password"
+          />
           <Input
             formik={formik}
             name="passwordConfirm"
             label="Password confirmation"
+            type="password"
           />
           <RadioInput
             formik={formik}
@@ -94,7 +105,11 @@ const SignUpForm = () => {
             name="nationality"
             selectOptions={selectOptions}
           />
-
+          <BooleanCheckBox
+            formik={formik}
+            name="terms"
+            label="Terms and Conditions"
+          />
           <button type="submit" disabled={!formik.isValid}>
             add
           </button>
